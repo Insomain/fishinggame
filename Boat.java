@@ -15,7 +15,7 @@ public class Boat extends Vehicle
     public Boat(Camera camera)
     {
         super(camera);
-        _velocity = new Vector2(-7, 7);
+        _velocity = new Vector2(0, 0);
     }
 
     public void act() 
@@ -31,29 +31,45 @@ public class Boat extends Vehicle
             Vector2 direction = toPlanet.normalized();
             
             // Apply gravity to all planets.
-            double gravityAmount = Space.G * planet.getArea() * (1 / Math.pow(distanceToPlanet, 2));
-            gravityVector = direction.multiply(gravityAmount);
-
-            if(distanceToPlanet < planet.getRadius())
+            double gravityAmount = Space.G * planet.getArea() / Math.pow(distanceToPlanet, 2);
+            gravityVector = gravityVector.add(direction.multiply(gravityAmount));
+            
+            if(distanceToPlanet - Size < planet.getRadius())
             {
-                double submergeAmount = planet.getRadius() - distanceToPlanet;
-                double buoyancyAmount = 0.1 * submergeAmount * gravityAmount;
-                buoyancyVector = direction.multiply(-buoyancyAmount);
+                double submergeAmount = planet.getRadius() - distanceToPlanet + Size / 2;
+                double buoyancyAmount = 0.2 * submergeAmount * gravityAmount;
+                buoyancyVector = buoyancyVector.add(direction.multiply(-buoyancyAmount));
             }
 
-            isInAtmosphere = distanceToPlanet < planet.getRadius() * 1.3;
+            isInAtmosphere |= distanceToPlanet < planet.getRadius() * 1.2;
         }
         Vector2 accelerationVector = gravityVector.add(buoyancyVector);
         if(isInAtmosphere)
         {
             Vector2 velocityDirection = _velocity.normalized();
-            accelerationVector = accelerationVector.add(_velocity.multiply(-0.1));
+            accelerationVector = accelerationVector.add(_velocity.multiply(-0.05));
         }
        
-        _velocity = _velocity.add(accelerationVector);
-        if(_velocity.length() > 1)
+        Vector2 movementVector = new Vector2(-gravityVector.getY(), gravityVector.getX());
+        Vector2 movementDirection = movementVector.normalized();
+        
+        if(Greenfoot.isKeyDown("right"))
         {
-            setWorldPosition(getWorldPosition().add(_velocity));
+            accelerationVector = accelerationVector.add(movementDirection.multiply(0.3));
         }
+        if(Greenfoot.isKeyDown("left"))
+        {
+            accelerationVector = accelerationVector.add(movementDirection.multiply(-0.3));
+        }
+        if(Greenfoot.isKeyDown("up"))
+        {
+            Vector2 gravityDirection = gravityVector.normalized();
+            accelerationVector = accelerationVector.add(gravityDirection.multiply(-1.1));
+        }
+        
+        _velocity = _velocity.add(accelerationVector);
+        setWorldPosition(getWorldPosition().add(_velocity));
+        double angle = Math.atan2(gravityVector.getY(), gravityVector.getX());
+        setRotation(-(int)(angle * 180 / Math.PI) - 90);
     }    
 }

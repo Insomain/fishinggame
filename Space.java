@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Space extends World
 {
-    public static final double G = 1;
+    public static final double G = 0.1;
     private Camera _camera;
     private WorldActor _focusTarget;
 
@@ -22,15 +22,15 @@ public class Space extends World
         
         OceanPlanet planet1 = new OceanPlanet(_camera, 1000);
         addObject(planet1, 0, 0);
-        planet1.setWorldPosition(new Vector2(-1500, 0));
+        planet1.setWorldPosition(new Vector2(0, 0));
 
-        OceanPlanet planet2 = new OceanPlanet(_camera, 200);
-        addObject(planet2, 0, 0);
-        planet2.setWorldPosition(new Vector2(0, 0));
+        OceanPlanet planet2 = new OceanPlanet(_camera, 1000);
+        //addObject(planet2, 0, 0);
+        planet2.setWorldPosition(new Vector2(2500, 0));
 
         Boat boat1 = new Boat(_camera);
         addObject(boat1, 0, 0);
-        boat1.setWorldPosition(new Vector2(-200, 1000));
+        boat1.setWorldPosition(new Vector2(0, 1050));
         _focusTarget = boat1;
     }
 
@@ -50,21 +50,25 @@ public class Space extends World
         grid.setColor(Color.BLACK);
         grid.fill();
         grid.setColor(Color.WHITE);
+        int width = getWidth();
+        int height = getHeight();
+        int cX = (int) _camera.getWorldPosition().getX();
+        int cY = (int) _camera.getWorldPosition().getY();
 
-        int squareCount = 10;
+        int squareCount = 5;
         for(int i = 0; i < squareCount; i++)
         {
             double u = i / (double)squareCount;
-            int pos = (int)((u * getWidth() - _camera.getWorldPosition().getX() + getWidth()) % getWidth());
+            int pos = (int)(u * width - cX % width + width) % width;
             //System.out.println(pos);
-            grid.drawLine(pos, 0, pos, getHeight());
+            grid.drawLine(pos, 0, pos, height);
         }
         for(int i = 0; i < squareCount; i++)
         {
             double v = i / (double)squareCount;
-            int pos = (int)((v * getHeight() + _camera.getWorldPosition().getY() + getHeight()) % getHeight());
+            int pos = (int) (v * height + cY % height + height) % height;
             //System.out.println(pos);
-            grid.drawLine(0, pos, getWidth(), pos);
+            grid.drawLine(0, pos, width, pos);
         }
         setBackground(grid);
     }
