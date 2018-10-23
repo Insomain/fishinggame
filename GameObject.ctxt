@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=GameObject
+comment1.params=renderer
+comment1.target=GameObject(Renderer)
+comment2.params=
+comment2.target=Transformation\ getTransformation()
+comment3.params=
+comment3.target=Renderer\ getRenderer()
+comment4.params=deltaTime
+comment4.target=void\ Update(double)
+numComments=5

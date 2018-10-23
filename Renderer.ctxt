@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=Renderer
+comment1.params=canvas\ camera
+comment1.target=void\ Draw(greenfoot.GreenfootImage,\ Camera)
+numComments=2

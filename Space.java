@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.util.List;
+import java.util.*;
 
 /**
  * Write a description of class Space here.
@@ -11,65 +11,54 @@ public class Space extends World
 {
     public static final double G = 0.1;
     private Camera _camera;
-    private WorldActor _focusTarget;
+    private ArrayList<GameObject> _gameObjects = new ArrayList<GameObject>();
 
     public Space()
     {        
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(800, 600, 1, false);  
         _camera = new Camera(getWidth(), getHeight());
-        _camera.setWorldPosition(new Vector2(0, 0));
-        
-        OceanPlanet planet1 = new OceanPlanet(_camera, 1000);
-        addObject(planet1, 0, 0);
-        planet1.setWorldPosition(new Vector2(0, 0));
 
-        OceanPlanet planet2 = new OceanPlanet(_camera, 1000);
-        //addObject(planet2, 0, 0);
-        planet2.setWorldPosition(new Vector2(2500, 0));
-
-        Boat boat1 = new Boat(_camera);
-        addObject(boat1, 0, 0);
-        boat1.setWorldPosition(new Vector2(0, 1050));
-        _focusTarget = boat1;
+        Boat boat = new Boat();
+        _gameObjects.add(boat);
     }
 
-    public List<OceanPlanet> getOceanPlanets()
-    {
-        return getObjects(OceanPlanet.class);
-    }
-
-    double t = 0;
     public void act()
     {
-        t += 0.001;
-        _camera.setWorldPosition(_focusTarget.getWorldPosition());
-        //_camera.setRotation(t);
+        GreenfootImage image = new GreenfootImage(getWidth(), getHeight());
+        image.setColor(Color.BLACK);
+        image.fill();
+        DrawGrid(image, 5);
 
-        GreenfootImage grid = new GreenfootImage(getWidth(), getHeight());
-        grid.setColor(Color.BLACK);
-        grid.fill();
-        grid.setColor(Color.WHITE);
+        // Need to sort by z depth between updating and rendering.
+        for(GameObject gameObject : _gameObjects)
+        {
+            gameObject.Update(0.01);
+            gameObject.getRenderer().Draw(image, _camera);
+        }
+
+        setBackground(image);
+    }
+
+    private void DrawGrid(GreenfootImage image, int squareCount)
+    {        
+        image.setColor(Color.WHITE);
         int width = getWidth();
         int height = getHeight();
-        int cX = (int) _camera.getWorldPosition().getX();
-        int cY = (int) _camera.getWorldPosition().getY();
+        int cX = (int) _camera.getTransformation().getPosition().getX();
+        int cY = (int) _camera.getTransformation().getPosition().getY();
 
-        int squareCount = 5;
         for(int i = 0; i < squareCount; i++)
         {
             double u = i / (double)squareCount;
             int pos = (int)(u * width - cX % width + width) % width;
-            //System.out.println(pos);
-            grid.drawLine(pos, 0, pos, height);
+            image.drawLine(pos, 0, pos, height);
         }
         for(int i = 0; i < squareCount; i++)
         {
             double v = i / (double)squareCount;
             int pos = (int) (v * height + cY % height + height) % height;
-            //System.out.println(pos);
-            grid.drawLine(0, pos, width, pos);
+            image.drawLine(0, pos, width, pos);
         }
-        setBackground(grid);
     }
 }

@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=ImageDrawable
+comment1.params=filePath
+comment1.target=ImageDrawable(java.lang.String)
+comment2.params=canvas\ camera
+comment2.target=void\ Draw(greenfoot.GreenfootImage,\ Camera)
+numComments=3

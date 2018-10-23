@@ -4,20 +4,17 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Camera  
+public class Camera implements Transformable
 {
     private int _width;
     private int _height;
-
-    private Vector2 _worldPosition;
-    private double _rotation;
+    private Transformation _transformation;
 
     public Camera(int width, int height)
     {
         _width = width;
         _height = height;
-        _worldPosition = new Vector2(0, 0);
-        _rotation = 0;
+        _transformation = new Transformation();
     }
 
     public int getWidth()
@@ -30,42 +27,27 @@ public class Camera
         return _height;
     }
 
-    public Vector2 getWorldPosition()
+    public Transformation getTransformation()
     {
-        return _worldPosition;
-    }
-
-    public void setWorldPosition(Vector2 position)
-    {
-        _worldPosition = position;
-    }
-
-    public double getRotation()
-    {
-        return _rotation;
-    }
-
-    public void setRotation(double rotation)
-    {
-        _rotation = rotation;
+        return _transformation;
     }
 
     public Vector2 getScreenPosition(Vector2 worldPosition)
     {        
         // Offset camera position.
-        Vector2 worldOffset = new Vector2(
-            _worldPosition.getX(),
-            _worldPosition.getY()
-        );
+        Vector2 worldOffset = _transformation.getPosition();
         Vector2 screenPosition = worldPosition.subtract(worldOffset);
 
         // Mirror vertically to allow up to be positive.
-        screenPosition = new Vector2(screenPosition.getX(), -screenPosition.getY());
+        screenPosition = new Vector2(
+            screenPosition.getX(),
+            -screenPosition.getY());
 
         // Offset camera rotation.
         Vector2 polarPosition = screenPosition.toPolar();
-        Vector2 newPolarPosition = new Vector2(polarPosition.getX(),
-            polarPosition.getY() + _rotation);
+        Vector2 newPolarPosition = new Vector2(
+            polarPosition.getX(),
+            polarPosition.getY() + _transformation.getRotation());
         screenPosition = newPolarPosition.toCartesian();
 
         // Offset screen center.
@@ -82,7 +64,7 @@ public class Camera
         // Offset screen center.
         Vector2 screenOffset = new Vector2(_width / 2, _height / 2);
         worldPosition = worldPosition.subtract(screenOffset);
-        screenPosition = screenPosition.subtract(_worldPosition);
+        screenPosition = screenPosition.subtract(_transformation.getPosition());
 
         return worldPosition;
     }
