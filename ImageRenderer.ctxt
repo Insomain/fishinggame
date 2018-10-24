@@ -2,6 +2,6 @@
 comment0.target=ImageRenderer
 comment1.params=filePath
 comment1.target=ImageRenderer(java.lang.String)
-comment2.params=canvas\ camera
-comment2.target=void\ Draw(greenfoot.GreenfootImage,\ Camera)
+comment2.params=canvas\ camera\ transformation
+comment2.target=void\ draw(greenfoot.GreenfootImage,\ Camera,\ Transformation)
 numComments=3

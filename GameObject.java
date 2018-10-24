@@ -3,24 +3,18 @@ import greenfoot.*;
 public abstract class GameObject implements Drawable, Transformable
 {
     private Transformation _transformation;
-    private Renderer _renderer;
     
-    protected GameObject(Renderer renderer)
+    protected GameObject()
     {
         _transformation = new Transformation();
-        _renderer = renderer;
-        _renderer.setTransformation(_transformation);
     }
 
-    public Transformation getTransformation()
+    public Transformation getTransformation() 
     {
         return _transformation;
     }
 
-    public Renderer getRenderer()
-    {
-        return _renderer;
-    }
+    public abstract void draw(GreenfootImage canvas, Camera camera);
 
-    public abstract void Update(double deltaTime);
+    public abstract void update(double deltaTime);
 }

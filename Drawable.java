@@ -1,4 +1,6 @@
+import greenfoot.*;
+
 public interface Drawable
 {
-    Renderer getRenderer();
+    void draw(GreenfootImage canvas, Camera camera);
 }

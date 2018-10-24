@@ -1,6 +1,6 @@
 import greenfoot.*;
 
-public class ImageRenderer extends Renderer
+public class ImageRenderer
 {
     private GreenfootImage _image;
 
@@ -9,9 +9,8 @@ public class ImageRenderer extends Renderer
         _image = new GreenfootImage(filePath);
     }
 
-    public void Draw(GreenfootImage canvas, Camera camera)
+    public void draw(GreenfootImage canvas, Camera camera, Transformation transformation)
     {
-        Transformation transformation = getTransformation();
         GreenfootImage workingCopy = new GreenfootImage(_image);
         workingCopy.rotate((int)(transformation.getRotation() * 180 / Math.PI));
         Vector2 worldPosition = transformation.getPosition();

@@ -1,12 +1,14 @@
 #BlueJ class context
 comment0.target=OceanPlanet
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ OceanPlanet\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=camera\ radius
-comment1.target=OceanPlanet(Camera,\ int)
+comment1.params=radius
+comment1.target=OceanPlanet(int)
 comment2.params=
 comment2.target=double\ getRadius()
 comment3.params=
 comment3.target=double\ getArea()
-comment4.params=canvas
-comment4.target=void\ Draw(greenfoot.GreenfootImage)
-numComments=5
+comment4.params=deltaTime
+comment4.target=void\ update(double)
+comment5.params=canvas\ camera
+comment5.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
+numComments=6

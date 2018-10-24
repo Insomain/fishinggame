@@ -11,6 +11,7 @@ public class Space extends World
 {
     public static final double G = 0.1;
     private Camera _camera;
+    private Boat _boat;
     private ArrayList<GameObject> _gameObjects = new ArrayList<GameObject>();
 
     public Space()
@@ -19,8 +20,24 @@ public class Space extends World
         super(800, 600, 1, false);  
         _camera = new Camera(getWidth(), getHeight());
 
-        Boat boat = new Boat();
-        _gameObjects.add(boat);
+        List<OceanPlanet> planets = new ArrayList<OceanPlanet>();
+        planets.add(createPlanet(1000, new Vector2(0, -1200)));
+        planets.add(createPlanet(1000, new Vector2(2500, -1200)));
+        
+        _boat = new Boat(planets);
+        _gameObjects.add(_boat);
+
+        for(OceanPlanet planet : planets)
+        {
+            _gameObjects.add(planet);
+        }
+    }
+
+    private OceanPlanet createPlanet(int radius, Vector2 position)
+    {
+        OceanPlanet planet = new OceanPlanet(radius);
+        planet.getTransformation().setPosition(position);
+        return planet;
     }
 
     public void act()
@@ -33,9 +50,11 @@ public class Space extends World
         // Need to sort by z depth between updating and rendering.
         for(GameObject gameObject : _gameObjects)
         {
-            gameObject.Update(0.01);
-            gameObject.getRenderer().Draw(image, _camera);
+            gameObject.update(0.01);
+            gameObject.draw(image, _camera);
         }
+
+        _camera.getTransformation().setPosition(_boat.getTransformation().getPosition());
 
         setBackground(image);
     }
