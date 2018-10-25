@@ -27,6 +27,15 @@ public class Space extends World
         _boat = new Boat(planets);
         _gameObjects.add(_boat);
 
+        for(int x = 0; x < 20; x++)
+        {
+            for(int y = 0; y < 20; y++)
+            {
+                Boat boat = new Boat(planets);
+                boat.getTransformation().setPosition(new Vector2(x*10, y*10));
+                //_gameObjects.add(boat);
+            }
+        }
         for(OceanPlanet planet : planets)
         {
             _gameObjects.add(planet);

@@ -51,7 +51,7 @@ public class Boat extends GameObject
         if(isInAtmosphere)
         {
             Vector2 velocityDirection = _velocity.normalized();
-            //accelerationVector = accelerationVector.add(_velocity.multiply(-0.05));
+            accelerationVector = accelerationVector.add(_velocity.multiply(-0.05));
         }
         
         Vector2 movementVector = new Vector2(-gravityVector.getY(), gravityVector.getX());
