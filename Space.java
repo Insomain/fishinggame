@@ -98,20 +98,28 @@ public class Space extends World
         image.setColor(Color.WHITE);
         int width = getWidth();
         int height = getHeight();
-        int cX = (int) _camera.getTransformation().getPosition().getX();
-        int cY = (int) _camera.getTransformation().getPosition().getY();
+        
+        double radius = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
+        double minX = _camera.getTransformation().getPosition().getX() - radius;
+        double maxX = _camera.getTransformation().getPosition().getX() + radius;
+        double minY = _camera.getTransformation().getPosition().getY() - radius;
+        double maxY = _camera.getTransformation().getPosition().getY() + radius;
 
-        for(int i = 0; i < squareCount; i++)
+        int starRadius = 3;
+        int count = 10;
+        double step = 2 * radius / count;
+        for(int xi = 0; xi < count; xi++)
         {
-            double u = i / (double)squareCount;
-            int pos = (int)(u * width - cX % width + width) % width;
-            image.drawLine(pos, 0, pos, height);
-        }
-        for(int i = 0; i < squareCount; i++)
-        {
-            double v = i / (double)squareCount;
-            int pos = (int) (v * height + cY % height + height) % height;
-            image.drawLine(0, pos, width, pos);
+            for(int yi = 0; yi < count; yi++)
+            {
+                double x = (xi / (double)count) * (maxX - minX) + minX - minX / 3 % step;
+                double y = (yi / (double)count) * (maxY - minY) + minY - minY / 3 % step;
+                Vector2 screenPosition = _camera.getScreenPosition(new Vector2(x, y));
+                image.fillOval(
+                    (int) screenPosition.getX() - starRadius, 
+                    (int) screenPosition.getY() - starRadius, 
+                    starRadius * 2, starRadius * 2);
+            }
         }
     }
 }

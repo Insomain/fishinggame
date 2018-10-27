@@ -28,10 +28,16 @@ public class Boat extends GameObject
         Vector2 gravityVector = new Vector2(0, 0);
         Vector2 buoyancyVector = new Vector2(0, 0);
         boolean isInAtmosphere = false;
+        double closestSurface = Double.MAX_VALUE;
         for (Planet planet : _planets)
         {
             Vector2 toPlanet = planet.getTransformation().getPosition().subtract(transform.getPosition());
             double distanceToPlanet = toPlanet.length();
+            double surfaceDistance = distanceToPlanet - planet.getRadius();
+            if(surfaceDistance < closestSurface)
+            {
+                closestSurface = surfaceDistance;
+            }
             Vector2 direction = toPlanet.normalized();
             
             // Apply gravity to all planets.
@@ -47,6 +53,7 @@ public class Boat extends GameObject
         
             isInAtmosphere |= distanceToPlanet < planet.getRadius() * 1.2;
         }
+        closestSurface = Math.max(Size / 2, closestSurface);
         Vector2 accelerationVector = gravityVector.add(buoyancyVector);
         if(isInAtmosphere)
         {
@@ -59,16 +66,17 @@ public class Boat extends GameObject
         
         if(Greenfoot.isKeyDown("right"))
         {
-            accelerationVector = accelerationVector.add(movementDirection.multiply(0.3));
+            accelerationVector = accelerationVector.add(movementDirection.multiply(1 / closestSurface * 10));
         }
         if(Greenfoot.isKeyDown("left"))
         {
-            accelerationVector = accelerationVector.add(movementDirection.multiply(-0.3));
+            accelerationVector = accelerationVector.add(movementDirection.multiply(-1 / closestSurface * 10));
         }
         if(Greenfoot.isKeyDown("up"))
         {
             Vector2 gravityDirection = gravityVector.normalized();
-            accelerationVector = accelerationVector.add(gravityDirection.multiply(-1.1));
+            double gravityMagnitude = gravityVector.length();
+            accelerationVector = accelerationVector.add(gravityDirection.multiply(-1 / closestSurface * 50));
         }
         
         _velocity = _velocity.add(accelerationVector);
