@@ -16,5 +16,8 @@ public abstract class GameObject implements Drawable, Transformable
 
     public abstract void draw(GreenfootImage canvas, Camera camera);
 
-    public abstract void update(double deltaTime);
+    public void update(double deltaTime)
+    {
+        // Overriden by derived classes.
+    }
 }

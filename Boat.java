@@ -12,9 +12,9 @@ public class Boat extends GameObject
     private final int Size = 48;
     private Vector2 _velocity;
     private ImageRenderer _renderer;
-    private List<OceanPlanet> _planets;
+    private List<Planet> _planets;
 
-    public Boat(List<OceanPlanet> planets)
+    public Boat(List<Planet> planets)
     {
         super();
         _renderer = new ImageRenderer("boat02-f.png");
@@ -28,7 +28,7 @@ public class Boat extends GameObject
         Vector2 gravityVector = new Vector2(0, 0);
         Vector2 buoyancyVector = new Vector2(0, 0);
         boolean isInAtmosphere = false;
-        for (OceanPlanet planet : _planets)
+        for (Planet planet : _planets)
         {
             Vector2 toPlanet = planet.getTransformation().getPosition().subtract(transform.getPosition());
             double distanceToPlanet = toPlanet.length();
@@ -74,7 +74,7 @@ public class Boat extends GameObject
         _velocity = _velocity.add(accelerationVector);
         transform.setPosition(transform.getPosition().add(_velocity));
         double angle = Math.atan2(gravityVector.getY(), gravityVector.getX());
-        transform.setRotation(-angle - Math.PI / 2);
+        transform.setRotation(angle + Math.PI / 2);
     }   
     public void draw(GreenfootImage canvas, Camera camera)
     {

@@ -54,9 +54,19 @@ public class Vector2
         return _x * other.getX() + _y * other.getY();
     }
 
+    public double distanceTo(Vector2 other)
+    {
+        return this.subtract(other).length();
+    }
+
     public double length()
     {
         return Math.sqrt(dot(this));
+    }
+
+    public Vector2 perpendicular()
+    {
+        return new Vector2(-_y, _x);
     }
 
     public Vector2 normalized()

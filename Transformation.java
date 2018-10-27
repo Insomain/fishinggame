@@ -23,7 +23,7 @@ public class Transformation
 
     public double getRotation()
     {
-        return _rotation;
+        return _rotation % (Math.PI * 2);
     }
 
     public void setRotation(double rotation)

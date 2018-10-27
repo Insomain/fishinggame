@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=Planet
+comment1.params=radius\ color
+comment1.target=Planet(int,\ greenfoot.Color)
+comment2.params=
+comment2.target=double\ getRadius()
+comment3.params=
+comment3.target=double\ getArea()
+comment4.params=point
+comment4.target=boolean\ containsPoint(Vector2)
+comment5.params=
+comment5.target=Vector2\ getRandomPoint()
+comment6.params=canvas\ camera
+comment6.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
+numComments=7

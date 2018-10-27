@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Fish
+comment1.params=planets
+comment1.target=Fish(java.util.List)
+comment2.params=deltaTime
+comment2.target=void\ update(double)
+comment3.params=
+comment3.target=Vector2\ pickTargetLocation()
+comment4.params=
+comment4.target=java.util.List\ getContainedPlanets()
+comment5.params=
+comment5.target=Planet\ getClosestPlanet()
+comment6.params=
+comment6.target=boolean\ getTargetInSpace()
+comment7.params=canvas\ camera
+comment7.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
+numComments=8
