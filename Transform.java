@@ -1,10 +1,10 @@
-public class Transformation
+public class Transform
 {
     private Vector2 _position;
     private double _rotation; // All roations are tracked in radians.
     private double _scale;
 
-    public Transformation()
+    public Transform()
     {
         _position = new Vector2(0, 0);
         _rotation = 0.0;

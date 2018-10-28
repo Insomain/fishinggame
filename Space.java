@@ -38,7 +38,7 @@ public class Space extends World
             for(int y = 0; y < 20; y++)
             {
                 Boat boat = new Boat(_planets);
-                boat.getTransformation().setPosition(new Vector2(x*10, y*10));
+                boat.setPosition(new Vector2(x*10, y*10));
                 //_gameObjects.add(boat);
             }
         }
@@ -56,13 +56,13 @@ public class Space extends World
     private Planet addPlanet(int radius, Vector2 position, Color color)
     {
         Planet planet = new Planet(radius, color);
-        planet.getTransformation().setPosition(position);
+        planet.setPosition(position);
         _planets.add(planet);
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 1; i++)
         {
             Fish fish = new Fish(_planets);
-            fish.getTransformation().setPosition(planet.getRandomPoint());
-            fish.getTransformation().setRotation(new Random().nextDouble() * Math.PI * 2);
+            fish.setPosition(planet.getRandomPoint());
+            fish.setRotation(new Random().nextDouble() * Math.PI * 2);
             _fish.add(fish);
         }
         return planet;
@@ -72,8 +72,8 @@ public class Space extends World
     public void act()
     {
         _time += 0.002;
-        _rightPlanet.getTransformation().setPosition(new Vector2(1250, -600).add(new Vector2(500 * Math.sin(_time), 0)));
-        _leftPlanet.getTransformation().setPosition(new Vector2(-1250, -600).add(new Vector2(-500 * Math.sin(_time * 0.9), 0)));
+        _rightPlanet.setPosition(new Vector2(1250, -600).add(new Vector2(500 * Math.sin(_time), 0)));
+        _leftPlanet.setPosition(new Vector2(-1250, -600).add(new Vector2(-500 * Math.sin(_time * 0.9), 0)));
 
         GreenfootImage image = new GreenfootImage(getWidth(), getHeight());
         image.setColor(Color.BLACK);
@@ -87,8 +87,8 @@ public class Space extends World
             gameObject.draw(image, _camera);
         }
 
-        _camera.getTransformation().setPosition(_boat.getTransformation().getPosition());
-        _camera.getTransformation().setRotation(_boat.getTransformation().getRotation());
+        _camera.setPosition(_boat.getPosition());
+        _camera.setRotation(_boat.getRotation());
 
         setBackground(image);
     }
@@ -100,10 +100,10 @@ public class Space extends World
         int height = getHeight();
         
         double radius = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
-        double minX = _camera.getTransformation().getPosition().getX() - radius;
-        double maxX = _camera.getTransformation().getPosition().getX() + radius;
-        double minY = _camera.getTransformation().getPosition().getY() - radius;
-        double maxY = _camera.getTransformation().getPosition().getY() + radius;
+        double minX = _camera.getPosition().getX() - radius;
+        double maxX = _camera.getPosition().getX() + radius;
+        double minY = _camera.getPosition().getY() - radius;
+        double maxY = _camera.getPosition().getY() + radius;
 
         int starRadius = 3;
         int count = 10;

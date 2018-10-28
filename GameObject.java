@@ -1,17 +1,28 @@
 import greenfoot.*;
 
-public abstract class GameObject implements Drawable, Transformable
+public abstract class GameObject implements Drawable
 {
-    private Transformation _transformation;
+    private Vector2 _position = new Vector2(0, 0);
+    private double _rotation = 0.0;
     
-    protected GameObject()
+    public Vector2 getPosition()
     {
-        _transformation = new Transformation();
+        return _position;
     }
 
-    public Transformation getTransformation() 
+    public void setPosition(Vector2 position)
     {
-        return _transformation;
+        _position = position;
+    }
+
+    public double getRotation()
+    {
+        return _rotation;
+    }
+
+    public void setRotation(double rotation)
+    {
+        _rotation = rotation;
     }
 
     public abstract void draw(GreenfootImage canvas, Camera camera);

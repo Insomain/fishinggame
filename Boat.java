@@ -24,14 +24,13 @@ public class Boat extends GameObject
 
     public void update(double deltaTime)
     {
-        Transformation transform = getTransformation();
         Vector2 gravityVector = new Vector2(0, 0);
         Vector2 buoyancyVector = new Vector2(0, 0);
         boolean isInAtmosphere = false;
         double closestSurface = Double.MAX_VALUE;
         for (Planet planet : _planets)
         {
-            Vector2 toPlanet = planet.getTransformation().getPosition().subtract(transform.getPosition());
+            Vector2 toPlanet = planet.getPosition().subtract(getPosition());
             double distanceToPlanet = toPlanet.length();
             double surfaceDistance = distanceToPlanet - planet.getRadius();
             if(surfaceDistance < closestSurface)
@@ -58,7 +57,7 @@ public class Boat extends GameObject
         if(isInAtmosphere)
         {
             Vector2 velocityDirection = _velocity.normalized();
-            accelerationVector = accelerationVector.add(_velocity.multiply(-0.05));
+            //accelerationVector = accelerationVector.add(_velocity.multiply(-0.05));
         }
         
         Vector2 movementVector = new Vector2(-gravityVector.getY(), gravityVector.getX());
@@ -80,12 +79,12 @@ public class Boat extends GameObject
         }
         
         _velocity = _velocity.add(accelerationVector);
-        transform.setPosition(transform.getPosition().add(_velocity));
+        setPosition(getPosition().add(_velocity));
         double angle = Math.atan2(gravityVector.getY(), gravityVector.getX());
-        transform.setRotation(angle + Math.PI / 2);
+        setRotation(angle + Math.PI / 2);
     }   
     public void draw(GreenfootImage canvas, Camera camera)
     {
-        _renderer.draw(canvas, camera, getTransformation());
+        _renderer.draw(canvas, camera, getPosition(), getRotation());
     }
 }

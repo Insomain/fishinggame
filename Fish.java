@@ -19,33 +19,30 @@ public class Fish extends GameObject
 
     public void update(double deltaTime)
     {
-        Transformation transform = getTransformation();
-
         // If getting too close to target:
         if(_targetLocation == null ||
-            transform.getPosition().distanceTo(_targetLocation) < targetThreshold ||
+            getPosition().distanceTo(_targetLocation) < targetThreshold ||
             getTargetInSpace())
             _targetLocation = pickTargetLocation();
 
         // Rotate toward target location.
-        Vector2 toTarget = (_targetLocation.subtract(transform.getPosition())).normalized();
-        Vector2 currentDirection = new Vector2(1, transform.getRotation()).toCartesian();
+        Vector2 toTarget = (_targetLocation.subtract(getPosition())).normalized();
+        Vector2 currentDirection = new Vector2(1, getRotation()).toCartesian();
         Vector2 sideDirection = currentDirection.perpendicular();
         double deltaAngle = Math.atan2(toTarget.dot(sideDirection), toTarget.dot(currentDirection));
         double direction = deltaAngle > 0 ? 1 : -1;
         double randomAmount = new Random().nextDouble();
-        transform.setRotation(transform.getRotation() + direction * turnSpeed * randomAmount);
+        setRotation(getRotation() + direction * turnSpeed * randomAmount);
 
         // Move forward
         _velocity = currentDirection.multiply(
                 moveSpeed * Math.max(Math.abs(currentDirection.dot(toTarget)), 0.5));
 
-        transform.setPosition(transform.getPosition().add(_velocity));
+        setPosition(getPosition().add(_velocity));
     }
 
     private Vector2 pickTargetLocation()
     {
-        Transformation transform = getTransformation();
         Planet targetPlanet = null;
         List<Planet> planets = getContainedPlanets();
         if(planets.size() > 0)
@@ -65,13 +62,10 @@ public class Fish extends GameObject
 
     private List<Planet> getContainedPlanets()
     {        
-        Transformation transform = getTransformation();
         ArrayList<Planet> containedPlanets = new ArrayList<Planet>();
         for(Planet planet : _planets)
         {
-            Transformation planetTransform = planet.getTransformation();
-            double distance = transform.getPosition()
-                .distanceTo(planetTransform.getPosition());
+            double distance = getPosition().distanceTo(planet.getPosition());
             if(distance < planet.getRadius())
             {
                 containedPlanets.add(planet);
@@ -82,14 +76,12 @@ public class Fish extends GameObject
 
     private Planet getClosestPlanet()
     {
-        Transformation transform = getTransformation();
         Planet closestPlanet = null;
         double closestDistnace = Double.MAX_VALUE;
         for(Planet planet : _planets)
         {
-            Transformation planetTransform = planet.getTransformation();
-            double distance = transform.getPosition()
-                .distanceTo(planetTransform.getPosition());
+            double distance = getPosition()
+                .distanceTo(planet.getPosition());
             if(distance < closestDistnace || closestPlanet == null)
             {
                 closestPlanet = planet;
@@ -111,14 +103,14 @@ public class Fish extends GameObject
 
     public void draw(GreenfootImage canvas, Camera camera)
     {
-        _renderer.draw(canvas, camera, getTransformation());
+        _renderer.draw(canvas, camera, getPosition(), getRotation());
         
         int radius = (int)targetThreshold;
         Vector2 drawPosition = camera.getScreenPosition(_targetLocation);
         canvas.setColor(Color.BLACK);
-        //canvas.fillOval(
-        //    (int) drawPosition.getX() - radius, 
-        //    (int) drawPosition.getY() - radius, 
-        //    radius * 2, radius * 2);
+        canvas.fillOval(
+            (int) drawPosition.getX() - radius, 
+            (int) drawPosition.getY() - radius, 
+            radius * 2, radius * 2);
     }
 }
