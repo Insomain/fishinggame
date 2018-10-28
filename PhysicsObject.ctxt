@@ -1,5 +1,0 @@
-#BlueJ class context
-comment0.target=PhysicsObject
-comment1.params=deltaTime
-comment1.target=void\ Update(double)
-numComments=2

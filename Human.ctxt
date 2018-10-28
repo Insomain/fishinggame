@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Human
+comment1.params=boat
+comment1.target=Human(Boat)
+comment2.params=canvas\ camera
+comment2.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
+numComments=3

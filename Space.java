@@ -28,7 +28,9 @@ public class Space extends World
 
         _planets = new ArrayList<Planet>();
         _boat = new Boat(_planets);
+        Human human = new Human(_boat);
         _gameObjects.add(_boat);
+        _gameObjects.add(human);
         _stillPlanet = addPlanet(500, new Vector2(0, -600), Color.BLUE);
         _rightPlanet = addPlanet(500, new Vector2(1250, -600), Color.BLUE);
         _leftPlanet = addPlanet(500, new Vector2(-1250, -600), Color.BLUE);

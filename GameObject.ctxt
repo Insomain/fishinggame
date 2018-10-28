@@ -1,11 +1,15 @@
 #BlueJ class context
 comment0.target=GameObject
 comment1.params=
-comment1.target=GameObject()
-comment2.params=
-comment2.target=Transformation\ getTransformation()
-comment3.params=canvas\ camera
-comment3.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
-comment4.params=deltaTime
-comment4.target=void\ update(double)
-numComments=5
+comment1.target=Vector2\ getPosition()
+comment2.params=position
+comment2.target=void\ setPosition(Vector2)
+comment3.params=
+comment3.target=double\ getRotation()
+comment4.params=rotation
+comment4.target=void\ setRotation(double)
+comment5.params=canvas\ camera
+comment5.target=void\ draw(greenfoot.GreenfootImage,\ Camera)
+comment6.params=deltaTime
+comment6.target=void\ update(double)
+numComments=7
