@@ -27,8 +27,15 @@ public abstract class GameObject implements Drawable
 
     public abstract void draw(GreenfootImage canvas, Camera camera);
 
-    public void update(double deltaTime)
+    public void update()
     {
         // Overriden by derived classes.
+    }
+
+    public Vector2 getOffset(Vector2 offset)
+    {
+        Vector2 forward = new Vector2(1, getRotation()).toCartesian();
+        Vector2 up = forward.perpendicular();
+        return forward.multiply(offset.getX()).add(up.multiply(offset.getY()));
     }
 }

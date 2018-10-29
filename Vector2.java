@@ -71,7 +71,12 @@ public class Vector2
 
     public Vector2 normalized()
     {
-        return divide(length());
+        double length = length();
+        if(length <= 1e-12)
+        {
+            return new Vector2(0, 0);
+        }
+        return divide(length);
     }
 
     public Vector2 toPolar()

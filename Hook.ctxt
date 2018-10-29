@@ -1,9 +1,9 @@
 #BlueJ class context
-comment0.target=Human
-comment1.params=boat\ pole
-comment1.target=Human(Boat,\ Pole)
+comment0.target=Hook
+comment1.params=fish
+comment1.target=Hook(java.util.List)
 comment2.params=
-comment2.target=int\ getNumberOfCaughtFish()
+comment2.target=java.util.List\ takeFish()
 comment3.params=
 comment3.target=void\ update()
 comment4.params=canvas\ camera

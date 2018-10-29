@@ -10,8 +10,13 @@ import java.util.*;
 public class Space extends World
 {
     public static final double G = 0.1;
+    
+    private boolean _gameOver = false;
+
     private Camera _camera;
     private Boat _boat;
+    private Human _human;
+
     private ArrayList<GameObject> _gameObjects = new ArrayList<GameObject>();
     private ArrayList<Planet> _planets = new ArrayList<Planet>();
     private ArrayList<Fish> _fish = new ArrayList<Fish>();
@@ -23,17 +28,19 @@ public class Space extends World
     public Space()
     {        
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(1200, 1200, 1, false);  
+        super(800, 800, 1, false);  
         _camera = new Camera(getWidth(), getHeight());
 
         _planets = new ArrayList<Planet>();
-        _boat = new Boat(_planets);
-        Human human = new Human(_boat);
-        _gameObjects.add(_boat);
-        _gameObjects.add(human);
         _stillPlanet = addPlanet(500, new Vector2(0, -600), Color.BLUE);
         _rightPlanet = addPlanet(500, new Vector2(1250, -600), Color.BLUE);
         _leftPlanet = addPlanet(500, new Vector2(-1250, -600), Color.BLUE);
+
+        _boat = new Boat(_planets);
+        Hook hook = new Hook(_fish);
+        FishingLine line = new FishingLine(hook);
+        Pole pole = new Pole(line);
+        _human = new Human(_boat, pole);
         
         for(int x = 0; x < 20; x++)
         {
@@ -49,6 +56,11 @@ public class Space extends World
         {
             _gameObjects.add(planet);
         }
+        _gameObjects.add(_boat);
+        _gameObjects.add(_human);
+        _gameObjects.add(pole);
+        _gameObjects.add(line);
+        _gameObjects.add(hook);
         for(Fish fish : _fish)
         {
             _gameObjects.add(fish);
@@ -73,19 +85,30 @@ public class Space extends World
     private double _time = 0;
     public void act()
     {
+        GreenfootImage image = new GreenfootImage(getWidth(), getHeight());
+        image.setColor(Color.BLACK);
+        image.fill();
+
+        if(_human.getNumberOfCaughtFish() == _fish.size())
+        {
+            String winString = "YOU WIN!";
+            image.setColor(Color.WHITE);
+            image.setFont(image.getFont().deriveFont(72));
+            image.drawString(winString, getWidth() / 2 - winString.length() * 72 / 4, getHeight() / 2);
+            setBackground(image);
+            return;
+        }
+
+        DrawGrid(image, 5);
+
         _time += 0.002;
         _rightPlanet.setPosition(new Vector2(1250, -600).add(new Vector2(500 * Math.sin(_time), 0)));
         _leftPlanet.setPosition(new Vector2(-1250, -600).add(new Vector2(-500 * Math.sin(_time * 0.9), 0)));
 
-        GreenfootImage image = new GreenfootImage(getWidth(), getHeight());
-        image.setColor(Color.BLACK);
-        image.fill();
-        DrawGrid(image, 5);
-
         // Need to sort by z depth between updating and rendering.
         for(GameObject gameObject : _gameObjects)
         {
-            gameObject.update(0.01);
+            gameObject.update();
             gameObject.draw(image, _camera);
         }
 

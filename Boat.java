@@ -10,19 +10,19 @@ import java.util.List;
 public class Boat extends GameObject
 {
     private final int Size = 48;
-    private Vector2 _velocity;
     private ImageRenderer _renderer;
     private List<Planet> _planets;
+    private Vector2 _velocity = new Vector2(0, 0);
+    private Vector2 _driveVector = new Vector2(0, 0);
 
     public Boat(List<Planet> planets)
     {
         super();
         _renderer = new ImageRenderer("boat02-f.png");
-        _velocity = new Vector2(0, 0);
         _planets = planets;
     }
 
-    public void update(double deltaTime)
+    public void update()
     {
         Vector2 gravityVector = new Vector2(0, 0);
         Vector2 buoyancyVector = new Vector2(0, 0);
@@ -62,27 +62,24 @@ public class Boat extends GameObject
         
         Vector2 movementVector = new Vector2(-gravityVector.getY(), gravityVector.getX());
         Vector2 movementDirection = movementVector.normalized();
-        
-        if(Greenfoot.isKeyDown("right"))
-        {
-            accelerationVector = accelerationVector.add(movementDirection.multiply(1 / closestSurface * 10));
-        }
-        if(Greenfoot.isKeyDown("left"))
-        {
-            accelerationVector = accelerationVector.add(movementDirection.multiply(-1 / closestSurface * 10));
-        }
-        if(Greenfoot.isKeyDown("up"))
-        {
-            Vector2 gravityDirection = gravityVector.normalized();
-            double gravityMagnitude = gravityVector.length();
-            accelerationVector = accelerationVector.add(gravityDirection.multiply(-1 / closestSurface * 50));
-        }
+        accelerationVector = accelerationVector.add(
+            movementDirection.multiply(_driveVector.getX() / closestSurface * 10));
+
+        Vector2 gravityDirection = gravityVector.normalized();
+        accelerationVector = accelerationVector.add(
+            gravityDirection.multiply(-_driveVector.getY() / closestSurface * 50));
         
         _velocity = _velocity.add(accelerationVector);
         setPosition(getPosition().add(_velocity));
         double angle = Math.atan2(gravityVector.getY(), gravityVector.getX());
         setRotation(angle + Math.PI / 2);
-    }   
+    }  
+
+    public void drive(Vector2 vector)
+    {
+        _driveVector = vector;
+    }
+
     public void draw(GreenfootImage canvas, Camera camera)
     {
         _renderer.draw(canvas, camera, getPosition(), getRotation());

@@ -10,15 +10,25 @@ public class Fish extends GameObject
     private static ImageRenderer _renderer = new ImageRenderer("fish.png");
     private List<Planet> _planets;
     private Vector2 _targetLocation;
-    private Vector2 _velocity;
+    private boolean _dead = false;
 
     public Fish(List<Planet> planets)
     {
         _planets = planets;
     }
 
-    public void update(double deltaTime)
+    public void kill()
     {
+        _dead = true;
+    }
+
+    public void update()
+    {
+        if(_dead)
+        {
+            return;
+        }
+        
         // If getting too close to target:
         if(_targetLocation == null ||
             getPosition().distanceTo(_targetLocation) < targetThreshold ||
@@ -35,10 +45,10 @@ public class Fish extends GameObject
         setRotation(getRotation() + direction * turnSpeed * randomAmount);
 
         // Move forward
-        _velocity = currentDirection.multiply(
+        Vector2 velocity = currentDirection.multiply(
                 moveSpeed * Math.max(Math.abs(currentDirection.dot(toTarget)), 0.5));
 
-        setPosition(getPosition().add(_velocity));
+        setPosition(getPosition().add(velocity));
     }
 
     private Vector2 pickTargetLocation()
@@ -108,9 +118,9 @@ public class Fish extends GameObject
         int radius = (int)targetThreshold;
         Vector2 drawPosition = camera.getScreenPosition(_targetLocation);
         canvas.setColor(Color.BLACK);
-        canvas.fillOval(
-            (int) drawPosition.getX() - radius, 
-            (int) drawPosition.getY() - radius, 
-            radius * 2, radius * 2);
+        //canvas.fillOval(
+        //    (int) drawPosition.getX() - radius, 
+        //    (int) drawPosition.getY() - radius, 
+        //    radius * 2, radius * 2);
     }
 }
